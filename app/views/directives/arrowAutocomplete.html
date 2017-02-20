@@ -1,0 +1,27 @@
+<div class="autocomlete__container">
+    <div class="input__group">
+        <span class="fa fa-caret-down input__arrow" ng-click="focusInput();"></span>
+        <input type="text" class="kontur__input" placeholder="{{placeholder}}"
+            ng-model="search" ng-keyup="onKeydown($event)"
+            ng-focus="openList();" select-by-focus
+            ng-blur="closeList()"
+            focus-on="isInputFocused">
+    </div>
+        <!--ng-blur="closeList()"  -->
+        <!-- next-focus -->
+    <div class="dropdown__container"  ng-if="isOpenList" custom-scroll cs-load-more="loadMore"
+        cs-search-text="search" cs-scroll-to-elem-idx="focusedData.index" cs-list-length="focusedData.filteredList.length">
+        <ul class="container__list">
+            <li ng-show="focusedData.filteredList.length == 0" class="container__list__item list_empty">Не найдено</li>
+            <li ng-repeat="item in focusedData.filteredList = (dataList | arrayFilter:search | limitTo:itemLimit) track by $index"
+                class="container__list__item"
+                ng-class="{'list__item_focused' : focusedData.index == $index}"
+                ng-mousedown="selectItem(item); "
+                >
+                {{item}}
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- ng-mouseover="focusedItem($index, item)"`` -->
+<!-- mb-scrollbar="scrollbarConfig" -->
