@@ -2,11 +2,14 @@ angular.module('AutocomleteAplication')
 .directive('arrowAutocomplete', [ 'KeyCodes',  function(KeyCodes) {
     return {
         restrict: 'E',
+        replace: true,
         templateUrl: '../../views/directives/arrowAutocomplete.html',
         scope: {
             dataList: '=list'
         },
         link: function (scope, element, attrs) {
+
+
             // scope.filteredList = [];
             scope.defaultPlaceholder = 'Введите или выберите из списка';
             scope.placeholder = attrs.placeholder || scope.defaultPlaceholder;
@@ -26,10 +29,12 @@ angular.module('AutocomleteAplication')
                 scope.selectedItem = item;
                 scope.search = item;
                 scope.isOpenList = false;
+                scope.isNextFocus = true;
             };
 
             scope.openList = function () {
                 scope.isOpenList = true;
+                // scope.focusInput();
                 scope.itemLimit = 50;
                 // if (!scope.selectedItem) {
                 scope.focusedData.index = 0;
@@ -50,6 +55,7 @@ angular.module('AutocomleteAplication')
             scope.getElementByIndex = function (index) {
                 return scope.focusedData.filteredList[index];
             };
+            scope.isNextFocus = false;
             scope.onKeydown = function($event) {
                 var e = $event;
                 var $target = $(e.target);
@@ -60,26 +66,24 @@ angular.module('AutocomleteAplication')
                     case KeyCodes.UPARROW:
                         if (scope.focusedData.index) {
                             scope.focusedData.index--;
-                            e.preventDefault();
-                            e.stopPropagation();
                         }
                         break;
                     case KeyCodes.RETURNKEY:
-                        console.log(scope.getFocusedItem());
-                        console.log(scope.focusedData.index);
                         scope.selectItem(scope.getFocusedItem());
-                        e.preventDefault();
-                        e.stopPropagation();
+                        $target.blur();
                         break;
                     case KeyCodes.DOWNARROW:
                         if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length) {
                             scope.focusedData.index++;
-                            e.preventDefault();
-                            e.stopPropagation();
                         }
                         break;
                     case KeyCodes.LEFTARROW:
                         console.log('LEFTARROW');
+                        break;
+                    case KeyCodes.TABKEY:
+                        e.preventDefault();
+                        scope.isNextFocus = true;
+                        $target.blur();
                         break;
                     case KeyCodes.RIGHTARROW:
                         console.log('RIGHTARROW');
@@ -91,6 +95,7 @@ angular.module('AutocomleteAplication')
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
+                scope.isNextFocus = false;
                 scope.isInputFocused = true;
             };
             // scope.searchIndex = function () {

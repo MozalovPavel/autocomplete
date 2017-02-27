@@ -83,6 +83,7 @@
     min-width: 322px;
     padding: 0;
     outline: none;
+    z-index: 1;
 }
 
 .container__list
@@ -113,12 +114,19 @@
     background: #fff;
 }
 
-.autocomlete__container > input:focus::-webkit-input-placeholder
+.input__group > input:focus::-webkit-input-placeholder
 {
-    color: #777;
+    color: #e1e1e1;
 }
 
-.test
+.autocomlete__container
 {
-    padding-bottom: 20px;
+    width: 320px;
+    margin: 10px;
+}
+
+.autocomlete__container:focus
+{
+    border: none;
+    outline: none;
 }

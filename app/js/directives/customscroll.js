@@ -15,8 +15,6 @@ app.directive('customScroll', [function() {
                     setTimeout(function () {
                         var jspPane = element.find('.jspPane');
                         element.css('height', jspPane.height() + 2);
-                        // var scrollToElem = element.find('li')[scope.scrollToElemIdx];
-                        // api.scrollToElement(scrollToElem, true);
                         api.reinitialise();
                     }, 0);
                 } else {
@@ -24,11 +22,10 @@ app.directive('customScroll', [function() {
                         element.jScrollPane();
                         element.bind('jsp-scroll-y', function (event, scrollPositionY, isAtTop, isAtBottom) {
                             if (isAtBottom) {
-                                scope.$apply(scope.loadMore);
+                                setTimeout(function () {
+                                    scope.$apply(scope.loadMore);
+                                }, 10);
                             }
-                        });
-                        element.bind('focus', function (event) {
-                            event.preventDefault();
                         });
                     }, 0);
                 }

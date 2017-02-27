@@ -1,12 +1,18 @@
 app.directive('nextFocus', [ 'KeyCodes', function(KeyCodes) {
     return {
         restrict: 'A',
+        scope: {
+            isNextFocus: '=nextFocus'
+        },
         link: function(scope, element, attrs) {
-            element.bind('keydown', function(e) {
-                var code = e.keyCode || e.which;
-                if (code === KeyCodes.RETURNKEY) {
-                    e.preventDefault();
-                    element.next().focus();
+            scope.$watch('isNextFocus', function (value) {
+                // console.log($(element));
+
+                if (value) {
+                    var nextElement = element.parent().next()[0];
+                    nextElement.focus();
+                    console.log(nextElement);
+                    scope.isNextFocus = false;
                 }
             });
         }
