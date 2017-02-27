@@ -6,12 +6,9 @@ app.directive('nextFocus', [ 'KeyCodes', function(KeyCodes) {
         },
         link: function(scope, element, attrs) {
             scope.$watch('isNextFocus', function (value) {
-                // console.log($(element));
-
                 if (value) {
                     var nextElement = element.parent().next()[0];
                     nextElement.focus();
-                    console.log(nextElement);
                     scope.isNextFocus = false;
                 }
             });

@@ -6,3 +6,15 @@ body
      color: #404040;
      line-height: 20px;
 }
+
+.test
+{
+    width: 150px;
+    display: inline-block;
+}
+
+.form-group > label,
+.form-group
+{
+    vertical-align: baseline;
+}

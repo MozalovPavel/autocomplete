@@ -5,7 +5,6 @@ app.directive('selectByFocus', function() {
             element.on("focus", function () {
                 scope.$apply(function() {
                     element.select();
-                    console.log('123');
                 });
             });
         }

@@ -8,69 +8,75 @@ angular.module('AutocomleteAplication')
             dataList: '=list'
         },
         link: function (scope, element, attrs) {
-
-
-            // scope.filteredList = [];
-            scope.defaultPlaceholder = 'Введите или выберите из списка';
-            scope.placeholder = attrs.placeholder || scope.defaultPlaceholder;
+            scope.placeholder = attrs.placeholder || '';
+            scope.disabled = attrs.hasOwnProperty('disabled');
+            scope.validationMessages = {
+                error: attrs.errorMessage,
+            };
             scope.search = '';
             scope.focusedData = {
-                index: 0,
+                index: -1,
                 filteredList: []
             };
             scope.selectedItem = null;
             scope.dataList = [];
             scope.isOpenList = false;
             scope.itemLimit = 50;
+            scope.isNextFocus = false;
             scope.loadMore = function() {
                 scope.itemLimit += 5;
             };
             scope.selectItem = function (item) {
-                scope.selectedItem = item;
-                scope.search = item;
+                if (!item) {
+                    scope.selectedItem = scope.search;
+                } else {
+                    scope.selectedItem = item;
+                    scope.search = item;
+                }
                 scope.isOpenList = false;
-                scope.isNextFocus = true;
+
             };
 
             scope.openList = function () {
-                scope.isOpenList = true;
-                // scope.focusInput();
-                scope.itemLimit = 50;
-                // if (!scope.selectedItem) {
-                scope.focusedData.index = 0;
-                // }
-            };
-            scope.focusedItem = function (index, item) {
-                scope.focusedData.index = index;
-                scope.focusedData.item = item;
+                setTimeout(function () {
+                    scope.isValidValue = true;
+                    scope.isOpenList = true;
+                    if (scope.search) {
+                        scope.focusedData.index = 0;
+                        scope.itemLimit = 50;
+                    }
+                    scope.$digest();
+                }, 0);
             };
 
             scope.closeList = function () {
                 scope.isOpenList = false;
+                scope.focusedData.index = -1;
+                scope.selectItem();
+                scope.validation();
             };
 
-            scope.getFocusedItem = function () {
-                return scope.focusedData.filteredList[scope.focusedData.index];
-            };
             scope.getElementByIndex = function (index) {
                 return scope.focusedData.filteredList[index];
             };
-            scope.isNextFocus = false;
             scope.onKeydown = function($event) {
                 var e = $event;
                 var $target = $(e.target);
                 switch (e.keyCode) {
                     case KeyCodes.ESCAPE:
-                        scope.isOpenList = false;
-                        break;
-                    case KeyCodes.UPARROW:
-                        if (scope.focusedData.index) {
-                            scope.focusedData.index--;
-                        }
+                        scope.closeList();
                         break;
                     case KeyCodes.RETURNKEY:
-                        scope.selectItem(scope.getFocusedItem());
+                        if (scope.isOpenList) {
+                            scope.selectItem(scope.getElementByIndex(scope.focusedData.index));
+                        }
+                        scope.nextFocus();
                         $target.blur();
+                        break;
+                    case KeyCodes.UPARROW:
+                        if (scope.focusedData.index > 0) {
+                            scope.focusedData.index--;
+                        }
                         break;
                     case KeyCodes.DOWNARROW:
                         if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length) {
@@ -80,36 +86,38 @@ angular.module('AutocomleteAplication')
                     case KeyCodes.LEFTARROW:
                         console.log('LEFTARROW');
                         break;
-                    case KeyCodes.TABKEY:
-                        e.preventDefault();
-                        scope.isNextFocus = true;
-                        $target.blur();
-                        break;
                     case KeyCodes.RIGHTARROW:
                         console.log('RIGHTARROW');
                         break;
+                    case KeyCodes.TABKEY:
+                        e.preventDefault();
+                        scope.nextFocus();
+                        $target.blur();
+                        break;
+                    case KeyCodes.BACKSPACE:
+                        scope.focusedData.index = -1;
+                        break;
                     default:
-                        // scope.searchIndex();
                         scope.openList();
                 }
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
-                scope.isNextFocus = false;
                 scope.isInputFocused = true;
             };
-            // scope.searchIndex = function () {
-            //     var index = -1;
-            //     if (scope.search != '') {
-            //         index = scope.dataList.findIndex(function (item) {
-            //             return item.indexOf(scope.search) != -1;
-            //         });
-            //     }
-            //     if (index >= 0) {
-            //         scope.focusedData.index = index;
-            //         console.log(index);
-            //     }
-            // };
+
+            scope.nextFocus = function () {
+                scope.isNextFocus = true;
+            }
+
+            scope.isValidValue = true;
+            scope.validation = function () {
+                if (scope.dataList.indexOf(scope.selectedItem) == -1 && scope.selectedItem) {
+                    scope.isValidValue = false;
+                } else {
+                    scope.isValidValue = true;
+                }
+            };
         }
     };
 }]);

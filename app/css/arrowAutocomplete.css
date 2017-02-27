@@ -41,7 +41,7 @@
 .input__arrow
 {
     position: absolute;
-    right: 2px;
+    right: 1px;
     top: 2px;
     width: 28px;
     height: 28px;
@@ -49,9 +49,14 @@
     padding: 8px 10px;
 }
 
+.input__arrow_disabled
+{
+    background: transparent;
+}
+
 .input__group
 {
-    width: 322px;
+    width: 100%;
     position: relative;
 }
 
@@ -63,12 +68,30 @@
     height: 32px;
     padding-left: 5px;
     padding-bottom: 2px;
+    vertical-align: baseline;
 }
 
 .kontur__input:focus
 {
     outline: none;
-    border: 2px solid #509adc;
+    border: 2px solid #5199db;
+}
+
+.message_error
+{
+    position: absolute;
+    color: #d30d25;
+}
+
+.kontur__input:focus + .input__arrow,
+.message_error + .input__arrow
+{
+    right: 2px;
+}
+
+.kontur__input_error
+{
+    border: 2px solid #da0c09;
 }
 
 .dropdown__container
@@ -99,9 +122,14 @@
     padding: 4px 5px;
 }
 
-.container__list__item:hover,
-.list__item_focused,
-.container__list__item:hover
+/*.container__list__item:hover,*/
+.list__item_focused
+{
+    background: #509adc;
+    color: #fff;
+}
+
+.list__item_selected
 {
     background: #509adc;
     color: #fff;
@@ -122,7 +150,7 @@
 .autocomlete__container
 {
     width: 320px;
-    margin: 10px;
+    /*margin: 10px;*/
 }
 
 .autocomlete__container:focus

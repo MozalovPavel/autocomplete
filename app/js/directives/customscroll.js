@@ -32,7 +32,7 @@ app.directive('customScroll', [function() {
             });
             scope.$watch('scrollToElemIdx', function () {
                 var api = element.data('jsp');
-                if (api) {
+                if (api && scope.scrollToElemIdx >= 0) {
                     var scrollToElem = element.find('li')[scope.scrollToElemIdx];
                     api.scrollToElement(scrollToElem, true);
                     api.reinitialise();
