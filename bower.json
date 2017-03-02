@@ -26,6 +26,7 @@
     "ngInfiniteScroll": "^1.3.4",
     "mb-scrollbar": "^2.2.0",
     "ng-scrollbars": "^0.0.11",
-    "jScrollPane": "^2.0.23"
+    "jScrollPane": "^2.0.23",
+    "jQuery.tabbable": "jquery.tabbable#^1.0.2"
   }
 }

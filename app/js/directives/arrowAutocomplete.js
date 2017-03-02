@@ -71,7 +71,6 @@ angular.module('AutocomleteAplication')
                             scope.selectItem(scope.getElementByIndex(scope.focusedData.index));
                         }
                         scope.nextFocus();
-                        $target.blur();
                         break;
                     case KeyCodes.UPARROW:
                         if (scope.focusedData.index > 0) {
@@ -90,8 +89,6 @@ angular.module('AutocomleteAplication')
                         console.log('RIGHTARROW');
                         break;
                     case KeyCodes.TABKEY:
-                        e.preventDefault();
-                        scope.nextFocus();
                         $target.blur();
                         break;
                     case KeyCodes.BACKSPACE:
@@ -108,7 +105,7 @@ angular.module('AutocomleteAplication')
 
             scope.nextFocus = function () {
                 scope.isNextFocus = true;
-            }
+            };
 
             scope.isValidValue = true;
             scope.validation = function () {

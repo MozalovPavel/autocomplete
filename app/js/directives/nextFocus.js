@@ -7,8 +7,8 @@ app.directive('nextFocus', [ 'KeyCodes', function(KeyCodes) {
         link: function(scope, element, attrs) {
             scope.$watch('isNextFocus', function (value) {
                 if (value) {
-                    var nextElement = element.parent().next()[0];
-                    nextElement.focus();
+                    // jQuery.tabNext();
+                    jQuery.tabNext();
                     scope.isNextFocus = false;
                 }
             });
