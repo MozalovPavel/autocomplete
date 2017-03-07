@@ -18,10 +18,10 @@
         switch-dropdown>
         <ul class="container__list">
             <li ng-show="focusedData.filteredList.length == 0" class="container__list__item list_empty">Не найдено</li>
-            <li ng-repeat="item in focusedData.filteredList = (dataList | arrayFilter:search | limitTo:itemLimit) track by $index"
+            <li ng-repeat="item in focusedData.filteredList | limitTo:itemLimit track by $index"
                 class="container__list__item"
-                ng-class="{'list__item_focused' : focusedData.index === $index}"
-                >
+                ng-class="{'list__item_selected': selectedItem === item && focusedData.index !== $index,
+                'list__item_focused' : focusedData.index === $index}">
                 <!-- ng-mousedown="selectItem(item); " -->
                 {{item}}
             </li>

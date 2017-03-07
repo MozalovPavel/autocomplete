@@ -1,5 +1,5 @@
 angular.module('AutocomleteAplication')
-.directive('arrowAutocomplete', [ 'KeyCodes',  function(KeyCodes) {
+.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filter) {
     return {
         restrict: 'E',
         replace: true,
@@ -34,16 +34,21 @@ angular.module('AutocomleteAplication')
                     scope.search = item;
                 }
                 scope.isOpenList = false;
-
             };
 
             scope.openList = function () {
                 setTimeout(function () {
                     scope.isValidValue = true;
                     scope.isOpenList = true;
-                    if (scope.search) {
-                        scope.focusedData.index = 0;
-                        scope.itemLimit = 50;
+                    if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
+                        // scope.focusedData.index = 0;
+                        // scope.itemLimit = 50;
+                        scope.focusedData.filteredList = scope.dataList;
+                        var itemIndex = scope.getItemIndex(scope.selectedItem);
+                        scope.setFocusIndex(itemIndex);
+                        if (itemIndex > scope.itemLimit) {
+                            scope.itemLimit = itemIndex;
+                        }
                     }
                     scope.$digest();
                 }, 0);
@@ -87,15 +92,19 @@ angular.module('AutocomleteAplication')
                         break;
                     case KeyCodes.RIGHTARROW:
                         console.log('RIGHTARROW');
+                        // scope.
                         break;
                     case KeyCodes.TABKEY:
-                        $target.blur();
+                        e.preventDefault();
+                        scope.nextFocus();
                         break;
                     case KeyCodes.BACKSPACE:
                         scope.focusedData.index = -1;
                         break;
                     default:
-                        scope.openList();
+                        if (!scope.isOpenList) {
+                            scope.openList();
+                        }
                 }
             };
             scope.isInputFocused = false;
@@ -115,6 +124,21 @@ angular.module('AutocomleteAplication')
                     scope.isValidValue = true;
                 }
             };
+            scope.getItemIndex = function (item) {
+                return scope.dataList.indexOf(item);
+            };
+
+            scope.setFocusIndex = function (index) {
+                scope.focusedData.index = index;
+                // scope.$digest();
+            };
+
+            scope.$watch('search', function (value) {
+                if (value) {
+                    scope.setFocusIndex(0);
+                }
+                scope.focusedData.filteredList = $filter('arrayFilter')(scope.dataList, value);
+            });
         }
     };
 }]);

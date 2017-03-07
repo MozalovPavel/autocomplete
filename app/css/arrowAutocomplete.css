@@ -103,7 +103,6 @@
     max-height: 226px;
     overflow: hidden;
     box-shadow: 0 4px 15px #ccc;
-    min-width: 322px;
     padding: 0;
     outline: none;
     z-index: 1;
@@ -157,4 +156,10 @@
 {
     border: none;
     outline: none;
+}
+
+.list__item_selected
+{
+    background: #eee;
+    color: #111;
 }

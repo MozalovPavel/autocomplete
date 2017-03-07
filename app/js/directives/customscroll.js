@@ -20,6 +20,7 @@ app.directive('customScroll', [function() {
                 } else {
                     setTimeout(function() {
                         element.jScrollPane();
+                        scrollToElement();
                         element.bind('jsp-scroll-y', function (event, scrollPositionY, isAtTop, isAtBottom) {
                             if (isAtBottom) {
                                 setTimeout(function () {
@@ -27,17 +28,36 @@ app.directive('customScroll', [function() {
                                 }, 10);
                             }
                         });
+                        element.bind('focus', function () {
+                            jQuery.tabNext();
+                        });
                     }, 0);
                 }
             });
-            scope.$watch('scrollToElemIdx', function () {
+            function scrollToElement() {
                 var api = element.data('jsp');
                 if (api && scope.scrollToElemIdx >= 0) {
                     var scrollToElem = element.find('li')[scope.scrollToElemIdx];
                     api.scrollToElement(scrollToElem, true);
                     api.reinitialise();
                 }
-            });
+            }
+            // scope.api = element.data('jsp');
+
+            // scope.$watch('api', function (v) {
+            //     console.log(v);
+            //     scrollToElement();
+            // });
+
+            // setTimeout(function () {
+            //     var api = element.data('jsp');
+            //     if (api && scope.scrollToElemIdx >= 0) {
+            //         var scrollToElem = element.find('li')[scope.scrollToElemIdx];
+            //         api.scrollToElement(scrollToElem, true);
+            //         api.reinitialise();
+            //     }
+            // }, 1000);
+            scope.$watch('scrollToElemIdx', scrollToElement);
         }
     };
 }]);
