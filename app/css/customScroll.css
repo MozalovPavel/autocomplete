@@ -1,5 +1,6 @@
 /* вертикальная полоса прокрутки */
-.jspVerticalBar {
+.jspVerticalBar
+{
 	position: absolute;
 	top: 0;
 	right: 4px;   /* можно прижать к правому или левому краю */

@@ -10,6 +10,7 @@ app.directive('customScroll', [function() {
         },
         link: function(scope, element, attrs) {
             scope.$watchGroup(['listLength', 'searchText'], function () {
+                console.log(scope.listLength);
                 var api = element.data('jsp');
                 if (api) {
                     setTimeout(function () {
@@ -19,11 +20,13 @@ app.directive('customScroll', [function() {
                     }, 0);
                 } else {
                     setTimeout(function() {
-                        element.jScrollPane();
-                        scrollToElement();
+                        element.jScrollPane({
+                            verticalDragMinHeight: 20
+                        });
                         element.bind('jsp-scroll-y', function (event, scrollPositionY, isAtTop, isAtBottom) {
                             if (isAtBottom) {
                                 setTimeout(function () {
+                                    console.log('12');
                                     scope.$apply(scope.loadMore);
                                 }, 10);
                             }
@@ -31,6 +34,7 @@ app.directive('customScroll', [function() {
                         element.bind('focus', function () {
                             jQuery.tabNext();
                         });
+                        scrollToElement();
                     }, 0);
                 }
             });

@@ -1,5 +1,4 @@
-angular.module('AutocomleteAplication')
-.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filter) {
+app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filter) {
     return {
         restrict: 'E',
         replace: true,
@@ -24,7 +23,9 @@ angular.module('AutocomleteAplication')
             scope.itemLimit = 50;
             scope.isNextFocus = false;
             scope.loadMore = function() {
-                scope.itemLimit += 5;
+                if (scope.itemLimit < scope.dataList.length) {
+                    scope.itemLimit += 5;
+                }
             };
             scope.selectItem = function (item) {
                 if (!item) {
@@ -40,10 +41,10 @@ angular.module('AutocomleteAplication')
                 setTimeout(function () {
                     scope.isValidValue = true;
                     scope.isOpenList = true;
+                    scope.focusedData.filteredList = scope.dataList;
                     if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
                         // scope.focusedData.index = 0;
                         // scope.itemLimit = 50;
-                        scope.focusedData.filteredList = scope.dataList;
                         var itemIndex = scope.getItemIndex(scope.selectedItem);
                         scope.setFocusIndex(itemIndex);
                         if (itemIndex > scope.itemLimit) {
@@ -99,13 +100,18 @@ angular.module('AutocomleteAplication')
                         scope.nextFocus();
                         break;
                     case KeyCodes.BACKSPACE:
-                        scope.focusedData.index = -1;
+                        scope.clearSelectedItem();
                         break;
                     default:
                         if (!scope.isOpenList) {
                             scope.openList();
                         }
                 }
+            };
+
+            scope.clearSelectedItem = function () {
+                scope.focusedData.index = -1;
+                scope.selectedItem = '';
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
