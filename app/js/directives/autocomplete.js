@@ -32,25 +32,31 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                 }
                 scope.isOpenList = false;
             };
-
+            scope.recalculationItemCount = function () {
+                scope.visibleItemCount = scope.itemLimit;
+                if (scope.focusedData.filteredList.length < scope.itemLimit) {
+                    scope.visibleItemCount = scope.focusedData.filteredList.length;
+                }
+            };
             scope.openList = function () {
                 setTimeout(function () {
-                    scope.isValidValue = true;
-                    scope.isOpenList = true;
-                    scope.focusedData.filteredList = scope.dataList;
-                    if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
-                        // scope.focusedData.index = 0;
-                        // scope.itemLimit = 50;
-                        var itemIndex = scope.getItemIndex(scope.selectedItem);
-                        scope.setFocusIndex(itemIndex);
-                        if (itemIndex > scope.itemLimit) {
-                            scope.itemLimit = itemIndex;
+                    if (scope.search) {
+                        scope.isValidValue = true;
+                        scope.isOpenList = true;
+                        scope.focusedData.filteredList = scope.dataList;
+                        if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
+                            // scope.focusedData.index = 0;
+                            // scope.itemLimit = 50;
+                            var itemIndex = scope.getItemIndex(scope.selectedItem);
+                            scope.setFocusIndex(itemIndex);
+                            if (itemIndex > scope.itemLimit) {
+                                scope.itemLimit = itemIndex;
+                            }
                         }
-                    } else {
-                        console.log(scope.search);
                         scope.focusedData.filteredList = scope.getFiltredList(scope.dataList, scope.search);
+                        scope.recalculationItemCount();
+                        scope.$digest();
                     }
-                    scope.$digest();
                 }, 0);
             };
 
@@ -83,7 +89,8 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                         }
                         break;
                     case KeyCodes.DOWNARROW:
-                        if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length) {
+                        if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length
+                            && scope.focusedData.index + 1 < scope.itemLimit) {
                             scope.focusedData.index++;
                         }
                         break;
@@ -110,6 +117,9 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
             scope.clearSelectedItem = function () {
                 scope.focusedData.index = -1;
                 scope.selectedItem = '';
+                if (!scope.isOpenList) {
+                    scope.openList();
+                }
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
@@ -137,13 +147,14 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                 // scope.$digest();
             };
             scope.getFiltredList = function (list, filteredString) {
-                 return $filter('arrayFilter')(list, filteredString);
+                return $filter('arrayFilter')(list, filteredString);
             };
             scope.$watch('search', function (value) {
                 if (value) {
                     scope.setFocusIndex(0);
                 }
                 scope.focusedData.filteredList = scope.getFiltredList(scope.dataList, value);
+                scope.recalculationItemCount();
             });
         }
     };

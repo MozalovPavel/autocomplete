@@ -34,7 +34,6 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                     scope.selectedItem = item;
                     scope.search = item;
                 }
-                scope.isOpenList = false;
             };
 
             scope.openList = function () {
@@ -104,6 +103,7 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                         break;
                     default:
                         if (!scope.isOpenList) {
+                            console.log('asd');
                             scope.openList();
                         }
                 }
