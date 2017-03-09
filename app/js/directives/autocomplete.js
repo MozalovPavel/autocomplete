@@ -89,8 +89,8 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                         }
                         break;
                     case KeyCodes.DOWNARROW:
-                        if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length
-                            && scope.focusedData.index + 1 < scope.itemLimit) {
+                        if (scope.focusedData.index + 1 < scope.focusedData.filteredList.length &&
+                            scope.focusedData.index + 1 < scope.itemLimit) {
                             scope.focusedData.index++;
                         }
                         break;
@@ -123,7 +123,11 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
-                scope.isInputFocused = true;
+                if (scope.disabled) {
+                    scope.nextFocus();
+                } else {
+                    scope.isInputFocused = true;
+                }
             };
 
             scope.nextFocus = function () {

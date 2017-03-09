@@ -115,7 +115,11 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
-                scope.isInputFocused = true;
+                if (scope.disabled) {
+                    scope.nextFocus();
+                } else {
+                    scope.isInputFocused = true;
+                }
             };
 
             scope.nextFocus = function () {

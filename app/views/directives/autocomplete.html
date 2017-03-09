@@ -7,8 +7,8 @@
             focus-on="isInputFocused"
             select-by-focus
             ng-class="{'kontur__input_error': !isValidValue}"
+            ng-blur="closeList()"
         >
-        <!-- ng-blur="closeList()" -->
         <span ng-if="!isValidValue" class="message_error">{{validationMessages.error}}</span>
     </div>
     <div class="dropdown__container"  ng-if="isOpenList">
@@ -21,7 +21,7 @@
                 {{item}}
             </li>
         </ul>
-        <p class="autocomplete__count-tip">
+        <p ng-show="focusedData.filteredList.length !== 0" class="autocomplete__count-tip">
             Показано {{visibleItemCount}} из {{focusedData.filteredList.length}} найденных значений.
             Уточните запрос, чтобы увидеть остальные
         </p>
