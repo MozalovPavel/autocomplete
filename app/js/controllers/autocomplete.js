@@ -12,23 +12,20 @@ function ($scope, $controller, $attrs) {
         }
     };
     $scope.openList = function () {
-        setTimeout(function () {
-            if ($scope.search) {
-                $scope.isValidValue = true;
-                $scope.isOpenList = true;
-                $scope.focusedData.filteredList = $scope.dataList;
-                if ($scope.selectedItem && $scope.getItemIndex($scope.selectedItem) != -1) {
-                    var itemIndex = $scope.getItemIndex($scope.selectedItem);
-                    $scope.setFocusIndex(itemIndex);
-                    if (itemIndex > $scope.itemLimit) {
-                        $scope.itemLimit = itemIndex;
-                    }
+        if ($scope.search) {
+            $scope.isValidValue = true;
+            $scope.isOpenList = true;
+            $scope.focusedData.filteredList = $scope.dataList;
+            if ($scope.selectedItem && $scope.getItemIndex($scope.selectedItem) != -1) {
+                var itemIndex = $scope.getItemIndex($scope.selectedItem);
+                $scope.setFocusIndex(itemIndex);
+                if (itemIndex > $scope.itemLimit) {
+                    $scope.itemLimit = itemIndex;
                 }
-                $scope.focusedData.filteredList = $scope.getFiltredList($scope.dataList, $scope.search);
-                $scope.recalculationItemCount();
-                $scope.$digest();
             }
-        }, 0);
+            $scope.focusedData.filteredList = $scope.getFiltredList($scope.dataList, $scope.search);
+            $scope.recalculationItemCount();
+        }
     };
     $scope.clearSelectedItem = function () {
         $scope.setFocusIndex(-1);

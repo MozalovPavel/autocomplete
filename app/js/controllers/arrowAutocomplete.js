@@ -34,19 +34,16 @@ function ($scope, $attrs, $filter, KeyCodes) {
         }
     };
     $scope.openList = function () {
-        setTimeout(function () {
-            $scope.isValidValue = true;
-            $scope.isOpenList = true;
-            $scope.focusedData.filteredList = $scope.dataList;
-            if ($scope.selectedItem && $scope.getItemIndex($scope.selectedItem) != -1) {
-                var itemIndex = $scope.getItemIndex($scope.selectedItem);
-                $scope.setFocusIndex(itemIndex);
-                if (itemIndex > $scope.itemLimit) {
-                    $scope.itemLimit = itemIndex;
-                }
+        $scope.isValidValue = true;
+        $scope.isOpenList = true;
+        $scope.focusedData.filteredList = $scope.dataList;
+        if ($scope.selectedItem && $scope.getItemIndex($scope.selectedItem) != -1) {
+            var itemIndex = $scope.getItemIndex($scope.selectedItem);
+            $scope.setFocusIndex(itemIndex);
+            if (itemIndex > $scope.itemLimit) {
+                $scope.itemLimit = itemIndex;
             }
-            $scope.$digest();
-        }, 0);
+        }
     };
     $scope.closeList = function () {
         $scope.isOpenList = false;
@@ -59,7 +56,6 @@ function ($scope, $attrs, $filter, KeyCodes) {
     };
     $scope.onKeydown = function($event) {
         var e = $event;
-        var $target = $(e.target);
         switch (e.keyCode) {
             case KeyCodes.ESCAPE:
                 $scope.closeList();

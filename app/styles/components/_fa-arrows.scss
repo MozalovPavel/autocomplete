@@ -32,9 +32,11 @@
     &-up:before {
         content: $fa-caret-up;
         width: 10px;
+        color: #aaa;
     }
     &-down:before {
         content: $fa-caret-down;
         width: 10px;
+        color: #aaa;
     }
 }

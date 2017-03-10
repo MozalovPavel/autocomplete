@@ -1,15 +1,23 @@
+'use strict';
 module.exports = function(config) {
-  'use strict';
 
   config.set({
-    autoWatch: false,
+    autoWatch: true,
     basePath: '../',
-    frameworks: [
-      'jasmine'
-    ],
+    frameworks: ['jasmine'],
     files: [
-      'app/**/*.js',
-      'tests/spec/**/*.js'
+        // 'app/bower_components/**/*.js',
+        'app/bower_components/angular/angular.js',
+        'app/bower_components/angular-animate/angular-animate.js',
+        'app/bower_components/angular-route/angular-route.js',
+        'app/bower_components/jquery/dist/jquery.js',
+        'app/bower_components/jQuery.tabbable/jquery.tabbable.js',
+        'app/bower_components/jScrollPane/script/jquery.jscrollpane.js',
+        'app/bower_components/jScrollPane/script/jquery.mousewheel.js',
+        'app/bower_components/angular-mocks/angular-mocks.js',
+
+        'app/js/**/*.js',
+        'tests/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -19,12 +27,14 @@ module.exports = function(config) {
     port: 8080,
 
     browsers: [
-      'PhantomJS'
+    //   'Chrome'
+        'PhantomJS'
     ],
 
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
+    //   'karma-chrome-launcher',
       'karma-jasmine'
     ],
 
