@@ -11,7 +11,7 @@
         >
         <span ng-if="!isValidValue" class="message_error">{{validationMessages.error}}</span>
     </div>
-    <div class="dropdown__container"  ng-if="isOpenList">
+    <div class="dropdown__container" ng-if="isOpenList" switch-dropdown>
         <ul class="container__list">
             <li ng-show="focusedData.filteredList.length === 0"
                 class="container__list__item container__list_empty">

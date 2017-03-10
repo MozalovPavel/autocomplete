@@ -16,7 +16,7 @@ var	postcss = require('gulp-postcss');
 var path = {
     watch: {
         js: './app/js/**/*.js',
-        html: './app/views/**/*.html',
+        html:  './app/views/**/*.html',
         scss: './app/styles/components/*.scss',
         index: './app/index.html'
     },
@@ -83,12 +83,13 @@ gulp.task('watch-sass', function () {
         .pipe(gulp.dest(path.dest.scss))
         .pipe(connect.reload());
 });
-gulp.task('reconnect', function () {
-    connect.reload();
+gulp.task('reload', function () {
+    gulp.src('./app/**/*.*')
+        .pipe(connect.reload());
 });
 gulp.task('watch', function() {
     gulp.watch([path.watch.scss], ['watch-sass']);
-    gulp.watch([path.watch.html, path.watch.js, path.watch.index], ['reconnect']);
+    gulp.watch([path.watch.html, path.watch.js, path.watch.index], ['reload']);
 });
 gulp.task('connect', function () {
     connect.server({
@@ -102,6 +103,15 @@ gulp.task('connectDist', function () {
         root: path.dest.root,
         port: 9999
     });
+});
+
+var Server = require('karma').Server;
+
+gulp.task('test', function (done) {
+    new Server({
+        configFile: __dirname + '/tests/karma.config.js',
+        singleRun: true
+    }, done).start();
 });
 
 // default task
