@@ -3,9 +3,7 @@ app.directive('selectByFocus', function() {
         restrict: "A",
         link: function(scope, element, attrs) {
             element.on("focus", function () {
-                scope.$apply(function() {
-                    element.select();
-                });
+                element.select();
             });
         }
     };

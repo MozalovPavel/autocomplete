@@ -1,4 +1,4 @@
-<div class="autocomlete__container" ng-focus="focusInput();" tabindex="1">
+<div class="autocomlete__container" ng-focus="focusInput();" tabindex="tabindex">
     <div class="input__group" next-focus="isNextFocus">
         <input type="text" class="kontur__input" placeholder="{{placeholder}}"
             ng-model="search"
@@ -11,24 +11,25 @@
             ng-disabled="disabled"
         >
         <span ng-if="!isValidValue" class="message_error">{{validationMessages.error}}</span>
-        <span ng-class="{'input__arrow_disabled': disabled}" class="fa fa-caret-down input__arrow" ng-click="focusInput();"></span>
+        <span ng-class="{'input__arrow_disabled': disabled}" class="fa fa-caret-down input__arrow"
+            ng-click="focusInput();">
+        </span>
     </div>
     <div class="dropdown__container"  ng-if="isOpenList" custom-scroll cs-load-more="loadMore"
-    cs-search-text="search" cs-scroll-to-elem-idx="focusedData.index" cs-list-length="itemLimit"
+        cs-search-text="search" cs-scroll-to-elem-idx="focusedData.index" cs-list-length="itemLimit"
         switch-dropdown>
         <ul class="container__list">
-            <li ng-show="focusedData.filteredList.length === 0" class="container__list__item list_empty">Не найдено</li>
+            <li ng-show="focusedData.filteredList.length === 0"
+                class="container__list__item container__list_empty">
+                Не найдено
+            </li>
             <li ng-repeat="item in focusedData.filteredList | limitTo:itemLimit track by $index"
                 class="container__list__item"
-                ng-class="{'list__item_selected': selectedItem === item && focusedData.index !== $index,
-                'list__item_focused' : focusedData.index === $index}">
-                <!-- ng-mousedown="selectItem(item); " -->
+                ng-class="{'container__list__item_selected': selectedItem === item &&
+                focusedData.index !== $index,
+                'container__list__item_focused' : focusedData.index === $index}">
                 {{item}}
             </li>
         </ul>
     </div>
 </div>
-
-<!-- cs-list-length="focusedData.filteredList.length" -->
-<!-- ng-mouseover="focusedItem($index, item)"`` -->
-<!-- mb-scrollbar="scrollbarConfig" -->

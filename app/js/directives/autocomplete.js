@@ -9,6 +9,10 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
         link: function (scope, element, attrs) {
             scope.placeholder = attrs.placeholder || '';
             scope.disabled = attrs.hasOwnProperty('disabled');
+            scope.tabindex = 1;
+            if (scope.disabled) {
+                scope.tabindex = -1;
+            }
             scope.validationMessages = {
                 error: attrs.errorMessage,
             };
@@ -45,8 +49,6 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                         scope.isOpenList = true;
                         scope.focusedData.filteredList = scope.dataList;
                         if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
-                            // scope.focusedData.index = 0;
-                            // scope.itemLimit = 50;
                             var itemIndex = scope.getItemIndex(scope.selectedItem);
                             scope.setFocusIndex(itemIndex);
                             if (itemIndex > scope.itemLimit) {
@@ -59,14 +61,12 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                     }
                 }, 0);
             };
-
             scope.closeList = function () {
                 scope.isOpenList = false;
-                scope.focusedData.index = -1;
+                scope.setFocusIndex(-1);
                 scope.selectItem();
                 scope.validation();
             };
-
             scope.getElementByIndex = function (index) {
                 return scope.focusedData.filteredList[index];
             };
@@ -95,10 +95,10 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                         }
                         break;
                     case KeyCodes.LEFTARROW:
-                        console.log('LEFTARROW');
+                        e.preventDefault();
                         break;
                     case KeyCodes.RIGHTARROW:
-                        console.log('RIGHTARROW');
+                        e.preventDefault();
                         break;
                     case KeyCodes.TABKEY:
                         e.preventDefault();
@@ -113,9 +113,8 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
                         }
                 }
             };
-
             scope.clearSelectedItem = function () {
-                scope.focusedData.index = -1;
+                scope.setFocusIndex(-1);
                 scope.selectedItem = '';
                 if (!scope.isOpenList) {
                     scope.openList();
@@ -123,13 +122,8 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
-                if (scope.disabled) {
-                    scope.nextFocus();
-                } else {
-                    scope.isInputFocused = true;
-                }
+                scope.isInputFocused = true;
             };
-
             scope.nextFocus = function () {
                 scope.isNextFocus = true;
             };
@@ -148,7 +142,6 @@ app.directive('autocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, $filt
 
             scope.setFocusIndex = function (index) {
                 scope.focusedData.index = index;
-                // scope.$digest();
             };
             scope.getFiltredList = function (list, filteredString) {
                 return $filter('arrayFilter')(list, filteredString);

@@ -1,0 +1,38 @@
+.jspVerticalBar
+{
+	position: absolute;
+	top: 0;
+	right: 4px;
+	width: 7px;
+	height: 100%;
+	background: rgba(0, 0, 0, 0);
+}
+
+.jspTrack
+{
+    background: rgba(0, 0, 0, 0);
+	position: relative;
+}
+
+.jspDrag
+{
+	background: #aaa;
+	opacity: .5;
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+    border-radius: 7px;
+}
+
+.jspPane
+{
+    width: 100% !important;
+	min-width: 100px !important;
+}
+
+.jspContainer
+{
+	height: 100%;
+	min-width: 100px !important;
+}

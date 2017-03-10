@@ -1,0 +1,40 @@
+@font-face
+{
+    font-family: 'fa';
+    src:  url('#{$icomoon-font-path}/fa.eot?8gcpaw');
+    src:  url('#{$icomoon-font-path}/fa.eot?8gcpaw#iefix') format('embedded-opentype'),
+        url('#{$icomoon-font-path}/fa.ttf?8gcpaw') format('truetype'),
+        url('#{$icomoon-font-path}/fa.woff?8gcpaw') format('woff'),
+        url('#{$icomoon-font-path}/fa.svg?8gcpaw#fa') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="fa-"],
+[class*=" fa-"]
+{
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'fa' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-caret
+{
+    &-up:before {
+        content: $fa-caret-up;
+        width: 10px;
+    }
+    &-down:before {
+        content: $fa-caret-down;
+        width: 10px;
+    }
+}

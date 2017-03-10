@@ -1,4 +1,4 @@
-<div class="autocomlete__container" ng-focus="focusInput();" tabindex="1">
+<div class="autocomlete__container" ng-focus="focusInput();" tabindex="tabindex">
     <div class="input__group" next-focus="isNextFocus">
         <input type="text" class="kontur__input" placeholder="{{placeholder}}"
             ng-model="search"
@@ -13,15 +13,19 @@
     </div>
     <div class="dropdown__container"  ng-if="isOpenList">
         <ul class="container__list">
-            <li ng-show="focusedData.filteredList.length === 0" class="container__list__item list_empty">Не найдено</li>
+            <li ng-show="focusedData.filteredList.length === 0"
+                class="container__list__item container__list_empty">
+                Не найдено
+            </li>
             <li ng-repeat="item in focusedData.filteredList | limitTo:itemLimit track by $index"
                 class="container__list__item"
-                ng-class="{'list__item_selected': selectedItem === item && focusedData.index !== $index,
-                'list__item_focused' : focusedData.index === $index}">
+                ng-class="{'container__list__item_selected': selectedItem === item &&
+                focusedData.index !== $index,
+                'container__list__item_focused' : focusedData.index === $index}">
                 {{item}}
             </li>
         </ul>
-        <p ng-show="focusedData.filteredList.length !== 0" class="autocomplete__count-tip">
+        <p ng-show="focusedData.filteredList.length !== 0" class="dropdown__container__count-tip">
             Показано {{visibleItemCount}} из {{focusedData.filteredList.length}} найденных значений.
             Уточните запрос, чтобы увидеть остальные
         </p>

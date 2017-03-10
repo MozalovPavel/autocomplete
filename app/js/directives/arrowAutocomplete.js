@@ -9,6 +9,10 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
         link: function (scope, element, attrs) {
             scope.placeholder = attrs.placeholder || '';
             scope.disabled = attrs.hasOwnProperty('disabled');
+            scope.tabindex = 1;
+            if (scope.disabled) {
+                scope.tabindex = -1;
+            }
             scope.validationMessages = {
                 error: attrs.errorMessage,
             };
@@ -22,6 +26,7 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
             scope.isOpenList = false;
             scope.itemLimit = 50;
             scope.isNextFocus = false;
+
             scope.loadMore = function() {
                 if (scope.itemLimit < scope.dataList.length) {
                     scope.itemLimit += 5;
@@ -35,15 +40,12 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                     scope.search = item;
                 }
             };
-
             scope.openList = function () {
                 setTimeout(function () {
                     scope.isValidValue = true;
                     scope.isOpenList = true;
                     scope.focusedData.filteredList = scope.dataList;
                     if (scope.selectedItem && scope.getItemIndex(scope.selectedItem) != -1) {
-                        // scope.focusedData.index = 0;
-                        // scope.itemLimit = 50;
                         var itemIndex = scope.getItemIndex(scope.selectedItem);
                         scope.setFocusIndex(itemIndex);
                         if (itemIndex > scope.itemLimit) {
@@ -53,14 +55,12 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                     scope.$digest();
                 }, 0);
             };
-
             scope.closeList = function () {
                 scope.isOpenList = false;
-                scope.focusedData.index = -1;
+                scope.setFocusIndex(-1);
                 scope.selectItem();
                 scope.validation();
             };
-
             scope.getElementByIndex = function (index) {
                 return scope.focusedData.filteredList[index];
             };
@@ -88,11 +88,10 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                         }
                         break;
                     case KeyCodes.LEFTARROW:
-                        console.log('LEFTARROW');
+                        e.preventDefault();
                         break;
                     case KeyCodes.RIGHTARROW:
-                        console.log('RIGHTARROW');
-                        // scope.
+                        e.preventDefault();
                         break;
                     case KeyCodes.TABKEY:
                         e.preventDefault();
@@ -103,29 +102,21 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
                         break;
                     default:
                         if (!scope.isOpenList) {
-                            console.log('asd');
                             scope.openList();
                         }
                 }
             };
-
             scope.clearSelectedItem = function () {
-                scope.focusedData.index = -1;
+                scope.setFocusIndex(-1);
                 scope.selectedItem = '';
             };
             scope.isInputFocused = false;
             scope.focusInput = function () {
-                if (scope.disabled) {
-                    scope.nextFocus();
-                } else {
-                    scope.isInputFocused = true;
-                }
+                scope.isInputFocused = true;
             };
-
             scope.nextFocus = function () {
                 scope.isNextFocus = true;
             };
-
             scope.isValidValue = true;
             scope.validation = function () {
                 if (scope.dataList.indexOf(scope.selectedItem) == -1 && scope.selectedItem) {
@@ -137,12 +128,9 @@ app.directive('arrowAutocomplete', [ 'KeyCodes', '$filter',  function(KeyCodes, 
             scope.getItemIndex = function (item) {
                 return scope.dataList.indexOf(item);
             };
-
             scope.setFocusIndex = function (index) {
                 scope.focusedData.index = index;
-                // scope.$digest();
             };
-
             scope.$watch('search', function (value) {
                 if (value) {
                     scope.setFocusIndex(0);

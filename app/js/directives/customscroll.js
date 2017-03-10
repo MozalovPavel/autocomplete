@@ -1,7 +1,6 @@
 app.directive('customScroll', [function() {
     return {
         restrict: 'A',
-        // replace: true,
         scope: {
             loadMore: '=csLoadMore',
             scrollToElemIdx: '=csScrollToElemIdx',
@@ -10,7 +9,6 @@ app.directive('customScroll', [function() {
         },
         link: function(scope, element, attrs) {
             scope.$watchGroup(['listLength', 'searchText'], function () {
-                console.log(scope.listLength);
                 var api = element.data('jsp');
                 if (api) {
                     setTimeout(function () {
@@ -26,7 +24,6 @@ app.directive('customScroll', [function() {
                         element.bind('jsp-scroll-y', function (event, scrollPositionY, isAtTop, isAtBottom) {
                             if (isAtBottom) {
                                 setTimeout(function () {
-                                    console.log('12');
                                     scope.$apply(scope.loadMore);
                                 }, 10);
                             }
@@ -46,21 +43,6 @@ app.directive('customScroll', [function() {
                     api.reinitialise();
                 }
             }
-            // scope.api = element.data('jsp');
-
-            // scope.$watch('api', function (v) {
-            //     console.log(v);
-            //     scrollToElement();
-            // });
-
-            // setTimeout(function () {
-            //     var api = element.data('jsp');
-            //     if (api && scope.scrollToElemIdx >= 0) {
-            //         var scrollToElem = element.find('li')[scope.scrollToElemIdx];
-            //         api.scrollToElement(scrollToElem, true);
-            //         api.reinitialise();
-            //     }
-            // }, 1000);
             scope.$watch('scrollToElemIdx', scrollToElement);
         }
     };

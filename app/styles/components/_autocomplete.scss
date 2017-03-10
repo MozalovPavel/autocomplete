@@ -1,0 +1,120 @@
+.autocomlete__container
+{
+    width: $default-input-width;
+    &:focus
+    {
+        border: none;
+        outline: none;
+    }
+}
+
+.input__arrow
+{
+    position: absolute;
+    right: 1px;
+    top: 2px;
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    padding: 8px 10px;
+    &_disabled
+    {
+        background: transparent;
+    }
+}
+
+.input__group
+{
+    width: 100%;
+    position: relative;
+    & > input:focus::placeholder
+    {
+        color: #e1e1e1;
+    }
+}
+
+.kontur__input
+{
+    border: 1px solid #f0f0f0;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    height: 32px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    vertical-align: baseline;
+    &:focus
+    {
+        outline: none;
+        border: 2px solid #5199db;
+        & + .input__arrow
+        {
+            right: 2px;
+        }
+    }
+    &_error
+    {
+        border: 2px solid #da0c09;
+    }
+}
+
+.message_error
+{
+    position: absolute;
+    color: #d30d25;
+    & + .input__arrow
+    {
+        right: 2px;
+    }
+}
+
+.dropdown__container
+{
+    background: #fff;
+    position: absolute;
+    border: 1px solid #ccc;
+    margin: 0;
+    max-height: 226px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px #ccc;
+    padding: 0;
+    outline: none;
+    z-index: 1;
+    &__count-tip
+    {
+        display: inline-block;
+        width: 300px;
+        padding: 10px 5px;
+        margin: 0;
+        color: #ccc;
+        font-size: 12px;
+    }
+}
+
+.container__list
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    &__item
+    {
+        padding: 4px 5px;
+        padding-right: 15px;
+        &_focused
+        {
+            background: #509adc;
+            color: #fff;
+        }
+        &_selected
+        {
+            background: #eee;
+            color: #111;
+        }
+    }
+    &_empty,
+    &_empty:hover
+    {
+        color: #aaa;
+        background: #fff;
+    }
+}
