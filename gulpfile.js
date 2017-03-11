@@ -121,7 +121,7 @@ gulp.task('test', function (done) {
 gulp.task('default', ['lint', 'watch', 'connect']);
 gulp.task('build', function() {
 	runSequence(
-        'watch-sass',
+        ['watch-sass'],
 		['lint', 'minify-css', 'minify-js', 'copy-json-file',
         'copy-html-files', 'copy-fonts', 'copy-bower-components'],
 		'connectDist'
