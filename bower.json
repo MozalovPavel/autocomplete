@@ -23,6 +23,6 @@
     "bootstrap": "^3.3.7",
     "jScrollPane": "^2.0.23",
     "jQuery.tabbable": "jquery.tabbable#^1.0.2",
-    "angular-mocks": "1.6.2"
+    "angular-mocks": "^1.6.2"
   }
 }

@@ -94,7 +94,6 @@ gulp.task('watch', function() {
 gulp.task('connect', function () {
     connect.server({
         root: 'app',
-        livereload: true,
         port: 8888
     });
 });

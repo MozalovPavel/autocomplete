@@ -54,6 +54,8 @@ body {
       right: 2px; }
   .kontur__input_error {
     border: 2px solid #da0c09; }
+  .kontur__input_warning {
+    border: 2px solid #111; }
 
 .message_error {
   position: absolute;

@@ -96,7 +96,9 @@ function ($scope, $attrs, $filter, KeyCodes) {
     };
     $scope.isInputFocused = false;
     $scope.focusInput = function () {
-        $scope.isInputFocused = true;
+        if (!$scope.isInputFocused) {
+            $scope.isInputFocused = true;
+        }
     };
     $scope.nextFocus = function () {
         $scope.isNextFocus = true;
@@ -123,5 +125,6 @@ function ($scope, $attrs, $filter, KeyCodes) {
             $scope.setFocusIndex(0);
         }
         $scope.focusedData.filteredList = $scope.getFiltredList($scope.dataList, value);
+        $scope.validation();
     });
 }]);
